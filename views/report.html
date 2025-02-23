@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Summary</title>
+    <script>
+        window.onload = function() {
+            // Read the headers from the response
+            const netSavings = parseFloat('<%= netSavings %>');
+            const goalStatus = '<%= goalStatus %>';
+
+            document.getElementById('net-savings').textContent = netSavings.toFixed(2);
+            document.getElementById('goal-status').textContent = goalStatus;
+        };
+    </script>
+</head>
+<body>
+    <h1>Financial Summary</h1>
+    <p>Net Savings: <strong id="net-savings">-</strong></p>
+    <p>Savings Goal Status: <strong id="goal-status">-</strong></p>
+    <a href="/">Go Back</a>
+</body>
+</html>
