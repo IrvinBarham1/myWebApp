@@ -16,6 +16,7 @@ router.post('/report', (req, res, next) => {
 
     // Render the report.ejs file with the calculated values
     res.render(path.join(__dirname, '../', 'views', 'report.ejs'), {
+        pageTitle: 'Financial Report',
         netSavings: netSavings,
         goalStatus: goalStatus,
         name : name,
