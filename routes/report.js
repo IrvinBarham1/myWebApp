@@ -3,7 +3,19 @@ const express = require('express');
 
 const router = express.Router();
 
+const getDb = require('../util/database').getDb;
+
 router.post('/report', (req, res, next) => {
+    const db = getDb();
+    db.collection('users')
+    .insertOne({name: req.body.name})
+    .then(result => {
+        console.log(result);
+        return db.collection('users').find().toArray();
+    })
+    .then(users => console.log('Mongo DB: ', users))
+    .catch(err => {console.error(err)});
+        
     console.log(req.body);
     const income = parseFloat(req.body.income);
     const expenses = parseFloat(req.body.expenses);
