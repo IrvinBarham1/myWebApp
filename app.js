@@ -8,9 +8,10 @@ const app = express();
 const mongoConnect = require('./util/database').mongoConnect;
 
 const homeRoutes = require('./routes/homepage');
-const ejs = require('ejs');
-
 const reportRoutes = require('./routes/report');
+const newsRoutes = require('./routes/news');
+
+const ejs = require('ejs');
 
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
@@ -19,6 +20,7 @@ app.set('views','views');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(homeRoutes);
 app.use(reportRoutes);
+app.use(newsRoutes);
 
 mongoConnect(() =>{
     app.listen(3000);
