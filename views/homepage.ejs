@@ -3,7 +3,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Personal Finance Management</h1>
+        <div class="title">
+            <h1>Personal Finance Management</h1>
+        </div>
+        <div class="navigation">
+            <%- include('includes/navigation.ejs') %>
+            <p><%= dbName %></p>
+        </div>
         <form action="/report" method="POST">
             <div class="form-group">
             <label for="months">Select a Month:</label>

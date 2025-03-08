@@ -1,10 +1,19 @@
 body {
     font-family: Cambria;
     margin: 20px;
+    background-color:dimgray;
 }
 .container {
     max-width: 600px;
     margin: 0 auto;
+    background-color:#cccccc;
+    padding: 1%;
+}
+.title {
+    background-color:#cccccc;
+    display: flex;
+    justify-content: center;
+    color: #ffffff;
 }
 .form-group {
     margin-bottom: 15px;
