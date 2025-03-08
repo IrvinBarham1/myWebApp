@@ -46,8 +46,5 @@ This project showcases the integration of various technologies, including:
    ```
 2. Open your browser and navigate to `http://localhost:3000/news` to view the latest finance news.
 
-## Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
-
 ## License
 This project is licensed under the MIT License.
