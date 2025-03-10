@@ -12,13 +12,21 @@ async function fetchChatResponse() {
   })
   return response.message.content;
 }
+// placing AI generated news at this end point
+router.get('/generated-news', async (req, res, next) => {
+  try {
+    const news = await fetchChatResponse();
+    res.json({ news });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Error fetching news data' });
+  }
+})
 
 router.get('/news', async (req, res, next) => {
   try{
-    const news = await fetchChatResponse();
     res.render(path.join(__dirname, '../', 'views', 'news.ejs'), {
-              pageTitle: 'AI Finance News',
-              aiNews: news
+              pageTitle: 'AI Finance News'
           })
     } catch(err){
       console.log(err);

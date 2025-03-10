@@ -5,7 +5,40 @@
 <body>
     <%- include('includes/navigation.ejs') %>
     <h1>Realtime AI Generated News</h1>
-    <p><%= aiNews %></p>
+
+    <div id="news-container">
+        <p id="loading-message">fetching news: <span id="timer">0.0</span> seconds elapsed</p>
+    </div>
+
+    <script>
+        let timer = 0.0;
+        const timerElement = document.getElementById('timer');
+
+        async function fetchNews() {
+            try { 
+                const response = await fetch('/generated-news');
+                if (!response.ok){
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                document.getElementById('news-container').innerText = data.news;
+            } catch(err){
+                console.error('news fetch error:', err);
+                document.getElementById('news-container').innerText = 'Error fetching news...';
+            }
+        }
+
+        function startTimer(){
+            const timerInterval = setInterval(() => {
+                timer += 0.01;
+                timerElement.innerText = timer.toFixed(2);
+            }, 10);
+            fetchNews().then(() => clearInterval(timerInterval));
+        }
+    
+        setInterval(fetchNews, 5000);
+        startTimer();
+    </script>
 
 
 <%- include('includes/end.ejs') %>
