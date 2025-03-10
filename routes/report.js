@@ -8,15 +8,18 @@ const getDb = require('../util/database').getDb;
 router.post('/report', (req, res, next) => {
     const db = getDb();
     db.collection('users')
-    .insertOne({name: req.body.name})
+    .insertOne({name: req.body.name,
+        income: parseFloat(req.body.income),
+        expense: parseFloat(req.body.expenses),
+        saving: parseFloat(req.body.savings)})
     .then(result => {
         console.log(result);
         return db.collection('users').find().toArray();
     })
-    .then(users => console.log('Mongo DB: ', users))
+    .then(users => console.log('>>> Mongo DB: ', users))
     .catch(err => {console.error(err)});
         
-    console.log(req.body);
+    console.log('>>> Request Body ', req.body);
     const income = parseFloat(req.body.income);
     const expenses = parseFloat(req.body.expenses);
     const savings = parseFloat(req.body.savings);

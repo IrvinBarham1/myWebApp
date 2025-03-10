@@ -1,44 +1,50 @@
 <%- include('includes/head.ejs') %>
 
     <link rel="stylesheet" href="\css\main.css">
+    <link rel="stylesheet" href="\css\news.css">
 </head>
 <body>
-    <%- include('includes/navigation.ejs') %>
-    <h1>Realtime AI Generated News</h1>
+    <div class="container">
+        <div class="title">
+            <h1>Financial News</h1>
+        </div>
+        <div class="navigation">
+            <%- include('includes/navigation.ejs') %>
+        </div>
+        <div class="news-body">
+            <div id="news-container">
+                <p id="loading-message">fetching news: <span id="timer">0.0</span> seconds elapsed</p>
+            </div>
+        </div>
 
-    <div id="news-container">
-        <p id="loading-message">fetching news: <span id="timer">0.0</span> seconds elapsed</p>
-    </div>
+        <script>
+            let timer = 0.0;
+            const timerElement = document.getElementById('timer');
 
-    <script>
-        let timer = 0.0;
-        const timerElement = document.getElementById('timer');
-
-        async function fetchNews() {
-            try { 
-                const response = await fetch('/generated-news');
-                if (!response.ok){
-                    throw new Error('Network response was not ok');
+            async function fetchNews() {
+                try { 
+                    const response = await fetch('/generated-news');
+                    if (!response.ok){
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    document.getElementById('news-container').innerText = data.news;
+                } catch(err){
+                    console.error('news fetch error:', err);
+                    document.getElementById('news-container').innerText = 'Error fetching news...';
                 }
-                const data = await response.json();
-                document.getElementById('news-container').innerText = data.news;
-            } catch(err){
-                console.error('news fetch error:', err);
-                document.getElementById('news-container').innerText = 'Error fetching news...';
             }
-        }
+            
+            function startTimer(){
+                const timerInterval = setInterval(() => {
+                    timer += 0.01;
+                    timerElement.innerText = timer.toFixed(2);
+                }, 10);
+                fetchNews().then(() => clearInterval(timerInterval));
+            }
 
-        function startTimer(){
-            const timerInterval = setInterval(() => {
-                timer += 0.01;
-                timerElement.innerText = timer.toFixed(2);
-            }, 10);
-            fetchNews().then(() => clearInterval(timerInterval));
-        }
-    
-        setInterval(fetchNews, 5000);
-        startTimer();
-    </script>
-
+            startTimer();
+        </script>
+    </div>
 
 <%- include('includes/end.ejs') %>

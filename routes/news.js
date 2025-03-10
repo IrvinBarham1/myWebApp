@@ -10,6 +10,7 @@ async function fetchChatResponse() {
   model: 'llama3.2:latest',
   messages: [{ role: 'user', content: 'Give 3 short sentences about current finance news' }],
   })
+  console.log(">>> AI News Generated")
   return response.message.content;
 }
 // placing AI generated news at this end point

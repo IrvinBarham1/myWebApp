@@ -10,6 +10,7 @@ const mongoConnect = require('./util/database').mongoConnect;
 const homeRoutes = require('./routes/homepage');
 const reportRoutes = require('./routes/report');
 const newsRoutes = require('./routes/news');
+const dbRoutes = require('./routes/databasepage');
 
 const ejs = require('ejs');
 
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(homeRoutes);
 app.use(reportRoutes);
 app.use(newsRoutes);
+app.use(dbRoutes);
 
 mongoConnect(() =>{
     app.listen(3000);

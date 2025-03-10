@@ -1,0 +1,6 @@
+.news-body {
+    display: flex;
+    justify-content: center; /* Center the list horizontally */
+    margin: 20px 0; /* Add some margin for spacing */
+    background-color: #cccccc; /* Add background color */
+}
