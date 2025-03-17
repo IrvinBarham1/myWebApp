@@ -12,7 +12,6 @@ async function fetchByName(name, res) {
     try{
         const users = await db.collection('users').find({name: name}, { projection: {}}).toArray();
         for (const element of users) {
-            console.log(element.income);
             queriedInfo.push('Income: ' + element.income,
                 ' Expense: ' + element.expense, ' Savings: ' + element.saving);
             return queriedInfo;
@@ -26,10 +25,10 @@ async function fetchByName(name, res) {
 // database query for names
 router.post('/getByName', async (req, res, next) => {
     const name = req.body.queryName;
-    console.log('request body: ', req.body);
+    console.log('>>> Query: ', req.body);
     try {
       const query = await fetchByName(name, res);
-      console.log('Query result:', query);
+      console.log('>>> Fetched From DB: ', query);
       res.json({ query });
     } catch (err) {
       console.log(err);

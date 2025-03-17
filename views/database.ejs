@@ -14,6 +14,7 @@
             <h3>Overview</h3>
         </div>
         <div class="line"></div>
+        <p><%= dbName %></p>
         <form id="queryForm">
             <div class="form-group">
                 <label for="queryName">Query by Name: </label>
@@ -24,41 +25,87 @@
         <div id="query-container">
             <p id="query-message"> <span id="query_name"> </span></p>
         </div>
-        <p><%= dbName %></p>
-        <p>Average Monthly Income: <%= avgIncome %> Click to view</p>
-        <p>Average Monthly Expenses: <%= avgExpense %> Click to view</p>
-        <p>Average Monthly Savings: <%= avgSaving %> Click to view</p>
-        <p>Average Monthly Debt: <b><%= avgDebt %></b> Click to view</p>
+        <div id="averages" data-avg-income="<%= avgIncome %>" data-avg-expense="<%= avgExpense %>" data-avg-saving="<%= avgSaving %>">
+            <ul class="avgList">
+                <li>Average Monthly Income</li>
+                <button id="avgIncome" type="button">Click to View</button>
+                <p></p>
+                <li>Average Monthly Expense</li>
+                <button id="avgExpense" type="button">Click to View</button>
+                <p></p>
+                <li>Average Monthly Savings</li>
+                <button id="avgSaving" type="button">Click to View</button>
+                <p></p>
+                <li>Average Monthly Debt</li>
+                <p><b><%= avgDebt %></b></p>
+            </ul>
+        </div>
+    </div>
     </div>
         <script>
-            document.getElementById('queryForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const queryName = document.getElementById('queryName').value;
-            console.log(queryName);
-            try {
-                const response = await fetch('/getByName', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ queryName })
+            document.addEventListener('DOMContentLoaded', function() {
+                const paragraphs = document.querySelectorAll('#averages p');
+                document.getElementById('avgIncome').addEventListener('click', function(event) { 
+                    event.preventDefault();
+                    if( paragraphs[0].innerText === document.getElementById('averages').dataset.avgIncome) {
+                        paragraphs[0].innerText = " ";
+                    } 
+                    else {
+                        const avgIncome = document.getElementById('averages').dataset.avgIncome;
+                        paragraphs[0].innerText = avgIncome;
+                    }
                 })
 
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Server error: ${response.status} - ${errorText}`);
-            }
-                const data = await response.json();
-                if(data.query != undefined)
-                    document.getElementById('query-container').innerText = `Information for ${queryName}: ${data.query}`;
-                else
-                document.getElementById('query-container').innerText = "The name " + queryName + " was not found in database";
-            } catch(err) {
-                console.error('Database fetch error:', err);
-                document.getElementById('query-container').innerText = 'Error fetching data for '+ queryName + ' from database';
-                }
+                document.getElementById('avgExpense').addEventListener('click', function(event) { 
+                    event.preventDefault();
+                    if( paragraphs[1].innerText === document.getElementById('averages').dataset.avgExpense){
+                        paragraphs[1].innerText = " ";
+                    } 
+                    else {
+                        const avgExpense = document.getElementById('averages').dataset.avgExpense;
+                        paragraphs[1].innerText = avgExpense;
+                    }
+                })
+
+                document.getElementById('avgSaving').addEventListener('click', function(event) {
+                    event.preventDefault();
+                    if( paragraphs[2].innerText === document.getElementById('averages').dataset.avgSaving){
+                        paragraphs[2].innerText = " ";
+                    } 
+                    else {
+                        const avgSaving = document.getElementById('averages').dataset.avgSaving;
+                        paragraphs[2].innerText = avgSaving;
+                    }
+                })
+
+                document.getElementById('queryForm').addEventListener('submit', async function(event) {
+                    event.preventDefault();
+                    const queryName = document.getElementById('queryName').value;
+                    console.log(queryName);
+                    try {
+                        const response = await fetch('/getByName', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ queryName })
+                        })
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Server error: ${response.status} - ${errorText}`);
+                    }
+                        const data = await response.json();
+                        if(data.query != undefined)
+                            document.getElementById('query-container').innerText = `Information for ${queryName}: ${data.query}`;
+                        else
+                        document.getElementById('query-container').innerText = "The name " + queryName + " was not found in database";
+                    } catch(err) {
+                        console.error('Database fetch error:', err);
+                        document.getElementById('query-container').innerText = 'Error fetching data for '+ queryName + ' from database';
+                        }
+                })
             })
         </script>
-    </div>
-</body>
+    </body>
 </html>
