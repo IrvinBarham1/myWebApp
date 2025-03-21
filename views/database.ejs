@@ -81,7 +81,6 @@
                 document.getElementById('queryForm').addEventListener('submit', async function(event) {
                     event.preventDefault();
                     const queryName = document.getElementById('queryName').value;
-                    console.log(queryName);
                     try {
                         const response = await fetch('/getByName', {
                             method: 'POST',

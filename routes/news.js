@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 const ollama = new Ollama({ host: 'http://127.0.0.1:11434'})
+
 async function fetchChatResponse() {
   const response = await ollama.chat({
   model: 'llama3.2:latest',

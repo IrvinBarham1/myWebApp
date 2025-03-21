@@ -1,0 +1,68 @@
+<%- include('includes/head.ejs') %>
+<link rel="stylesheet" href="\css\main.css">
+<link rel="stylesheet" href="\css\advisor.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>Chatroom</h1>
+        </div>
+    <div class="navigation">
+        <%- include('includes/navigation.ejs') %>
+        <div class="page-header">
+            <h3>Welcome!</h3>
+        </div>
+        <div class="chatbox-loading">
+            <span id="loading-message"></span>
+        </div>
+        <div class= "ai-responses" id ="ai-responses">
+            <p></p>
+        </div>
+        <div class="user-input" id="user-input">
+            <input type="input" id="input" name="input">
+            <button type="submit" id="send-btn"><b>Reply</b></button>
+        </div>
+<script>
+    document.getElementById('send-btn').addEventListener('click', async function(event) { 
+        event.preventDefault(); 
+        const userInput = document.getElementById('input').value;
+        const loadingText = document.getElementById('loading-message');
+        async function fetchResponse() {
+            try { 
+                const response = await fetch('/ai-response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: userInput }) 
+                })
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                document.getElementById('ai-responses').innerText = "Advisor: " + data.response; 
+            } catch(err) {
+                console.error('Chat response fetch error:', err);
+                document.getElementById('ai-responses').innerText = 'Error fetching AI response...';
+            }
+        }
+        let text = 'Fetching Advisor Response';
+        function startLoadingText(){
+                const timerInterval = setInterval(() => {
+                    text += ' . ';
+                    loadingText.innerText = text;
+                    if(text.length >= 60 && text.length <= 65){
+                        text += ' please be patient ';
+                        loadingText.innerText = text;
+                    }
+                }, 1000);
+                fetchResponse().then(() => clearInterval(timerInterval));
+            }
+        startLoadingText();
+    })
+</script>
+
+</body>
+</html>

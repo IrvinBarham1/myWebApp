@@ -11,6 +11,7 @@ const homeRoutes = require('./routes/homepage');
 const reportRoutes = require('./routes/report');
 const newsRoutes = require('./routes/news');
 const dbRoutes = require('./routes/databasepage');
+const advisorRoutes = require('./routes/advisor');
 
 const ejs = require('ejs');
 
@@ -25,6 +26,7 @@ app.use(homeRoutes);
 app.use(reportRoutes);
 app.use(newsRoutes);
 app.use(dbRoutes);
+app.use(advisorRoutes);
 
 mongoConnect(() =>{
     app.listen(3000);
